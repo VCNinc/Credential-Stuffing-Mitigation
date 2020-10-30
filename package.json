@@ -1,0 +1,24 @@
+{
+  "name": "credential-stuffing-mitigation",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vcninc/Credential-Stuffing-Mitigation.git"
+  },
+  "author": "Vivek Nair <vivek@nair.me> (https://github.com/vcninc)",
+  "bugs": {
+    "url": "https://github.com/vcninc/Credential-Stuffing-Mitigation/issues"
+  },
+  "homepage": "https://github.com/vcninc/Credential-Stuffing-Mitigation#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
