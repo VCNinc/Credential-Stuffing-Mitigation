@@ -12,8 +12,9 @@ const port = parseInt(process.argv[3]) || 4444;
     reactive:   detect & mitigate credential stuffing attacks
     both:       use both proactive & reactive strategies
     none:       use neither strategy, accept all requests
+    rate:       use blind rate limiting strategy
 */
-    const MODE = 'reactive';
+    const MODE = 'rate';
     const threshold = 1.5;
     const trainSeconds = 60;
 /*
@@ -77,6 +78,20 @@ app.post('/login', (req, res) => {
 
   if (MODE === 'proactive' || MODE === 'none') {
     res.status(200).send({valid: true});
+  } else if (MODE === 'rate') {
+    if (train) {
+      if (!trainBase[req.body.service]) trainBase[req.body.service] = 0;
+      trainBase[req.body.service]++;
+      res.status(200).send({valid: true});
+    } else {
+      if (!attackBase[req.body.service]) attackBase[req.body.service] = 0;
+      attackBase[req.body.service]++;
+      if (attackBase[req.body.service] > 1.5 * trainBase[req.body.service]) {
+        res.status(200).send({valid: false});
+      } else {
+        res.status(200).send({valid: true});
+      }
+    }
   } else {
     if (blocked.has(req.body.hash)) {
       res.status(200).send({valid: false});
